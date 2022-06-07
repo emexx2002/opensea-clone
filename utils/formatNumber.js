@@ -1,4 +1,4 @@
-import { replace } from 'lodash';
+import { replace } from 'Lodash';
 import numeral from 'numeral';
 
 // ----------------------------------------------------------------------
