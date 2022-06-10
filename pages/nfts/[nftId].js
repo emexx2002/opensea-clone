@@ -49,7 +49,7 @@ const Nft = () => {
 
         const sdk = new ThirdwebSDK(
             provider.getSigner(),
-            'https://rinkeby.infura.io/v3/a464b9152d8c466c8a94a514fce8e837'
+            'https://eth-rinkeby.alchemyapi.io/v2/odu8FkyGpdUrkuoDvFX_C0WQE7n1X-Dz'
         )
 
         return sdk.getMarketplaceModule(
