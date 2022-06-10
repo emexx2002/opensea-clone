@@ -15,7 +15,7 @@ const MakeOffer = ({ isListed, selectedNft, listings, marketPlaceModule }) => {
     const [enableButton, setEnableButton] = useState(false)
 
     useEffect(() => {
-        if (!listings || isListed === 'false') return
+        if (!listings || isListed === false) return
             ; (async () => {
                 setSelectedMarketNft(
                     listings.find((marketNft) => marketNft.asset?.id === selectedNft.id)
@@ -63,7 +63,7 @@ const MakeOffer = ({ isListed, selectedNft, listings, marketPlaceModule }) => {
     return (
         <div className="flex h-20 w-full items-center rounded-lg border border-[#151c22] bg-[#303339] px-12">
             <Toaster position="bottom-left" reverseOrder={false} />
-            {isListed === 'true' ? (
+            {isListed === true ? (
                 <>
                     <div
                         onClick={() => {
