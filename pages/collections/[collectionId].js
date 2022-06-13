@@ -41,14 +41,15 @@ const Collection = () => {
   const [nfts, setNtfts] = useState([])
   const [listings, setListings] = useState([])
 
+  // // console.log(provider.getSigner())
+
   // https://eth-rinkeby.alchemyapi.io/v2/odu8FkyGpdUrkuoDvFX_C0WQE7n1X-Dz
 
   const nftModule = useMemo(() => {
     if (!provider) return
 
     const sdk = new ThirdwebSDK(
-      provider.getSigner(),
-      'https://eth-rinkeby.alchemyapi.io/v2/odu8FkyGpdUrkuoDvFX_C0WQE7n1X-Dz'
+      provider.getSigner()
     )
     return sdk.getNFTModule(collectionId)
 
@@ -57,10 +58,7 @@ const Collection = () => {
   const marketPlaceModule = useMemo(() => {
     if (!provider) return
 
-    const sdk = new ThirdwebSDK(
-      provider.getSigner(),
-      'https://eth-rinkeby.alchemyapi.io/v2/odu8FkyGpdUrkuoDvFX_C0WQE7n1X-Dz'
-    )
+    const sdk = new ThirdwebSDK(provider.getSigner())
     return sdk.getMarketplaceModule('0x144929958ebAEaEDCd759C90AD6E1226634D5D6B')
   }, [provider])
 
@@ -87,7 +85,7 @@ const Collection = () => {
 
     const collectionData = await sanityClient.fetch(query)
 
-    console.log(collectionData, '🔥')
+    // // console.log(collectionData, '🔥')
 
     // the query returns 1 object inside of an array
     await setCollection(collectionData[0])
@@ -104,10 +102,12 @@ const Collection = () => {
 
         const nfts = await nftModule.getAll()
         setNtfts(nfts)
+        console.log(nfts)
 
       })()
 
   }, [nftModule])
+
 
 
   return (

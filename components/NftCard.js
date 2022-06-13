@@ -48,7 +48,7 @@ const NftCard = ({ nftItem, title, listings }) => {
             onClick={() => {
                 Router.push({
                     pathname: `/nfts/${nftItem.id}`,
-                    query: { islisted: islisted }
+                    query: { isListed: islisted }
                 })
             }}
         >

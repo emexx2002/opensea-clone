@@ -37,7 +37,7 @@ const Home = () => {
           userName: "Unnamed",
           walletAddress: address,
         }
-        // console.log(userDoc)
+        // // console.log(userDoc)
         const result = await client.createIfNotExists(userDoc)
         welcome(result.userName)
       })()

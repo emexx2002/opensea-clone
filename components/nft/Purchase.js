@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { HiTag } from 'react-icons/hi'
 import { IoMdWallet } from 'react-icons/io'
 import toast, { Toaster } from 'react-hot-toast'
+import { useWeb3 } from '@3rdweb/hooks'
 
 const style = {
     button: `mr-8 flex items-center py-2 px-12 rounded-lg cursor-pointer`,
@@ -13,12 +14,18 @@ const style = {
 const MakeOffer = ({ isListed, selectedNft, listings, marketPlaceModule }) => {
     const [selectedMarketNft, setSelectedMarketNft] = useState()
     const [enableButton, setEnableButton] = useState(false)
+    const { address, connectWallet } = useWeb3()
+
+    // // console.log(listings, selectedNft)
 
     useEffect(() => {
-        if (!listings || isListed === false) return
+        if (!listings || isListed === 'false') return
             ; (async () => {
                 setSelectedMarketNft(
-                    listings.find((marketNft) => marketNft.asset?.id === selectedNft.id)
+                    listings.find((marketNft) => {
+                        // console.log(parseInt(marketNft.asset?.id._hex, 16).toString(), parseInt(selectedNft.metadata.id._hex, 16).toString())
+                        return parseInt(marketNft.asset?.id._hex, 16).toString() === parseInt(selectedNft.metadata.id._hex, 16).toString()
+                    })
                 )
             })()
     }, [selectedNft, listings, isListed])
@@ -42,8 +49,8 @@ const MakeOffer = ({ isListed, selectedNft, listings, marketPlaceModule }) => {
         quantityDesired = 1,
         module = marketPlaceModule
     ) => {
-        console.log(listingId, quantityDesired, module, 'david')
-        // yo RAZA lets goooo!!!
+        // // console.log(listingId, quantityDesired, module, 'david')
+        // yo RAZA lets goooo!!! 
         //yo Qazi, ok
         // sure okay about to run it...
         // just clicked buy now...
@@ -51,23 +58,22 @@ const MakeOffer = ({ isListed, selectedNft, listings, marketPlaceModule }) => {
         // where can i see the contract address of the marketplace module
         // in [nftId.js]
         await module
-            .buyoutDirectListing({
-                listingId: listingId,
-                quantityDesired: quantityDesired,
-            })
+            .buyoutListing(0, 1)
             .catch((error) => console.error(error))
 
         confirmPurchase()
     }
 
+    // console.log("listed", typeof isListed)
+
     return (
         <div className="flex h-20 w-full items-center rounded-lg border border-[#151c22] bg-[#303339] px-12">
             <Toaster position="bottom-left" reverseOrder={false} />
-            {isListed === true ? (
+            {isListed === 'true' ? (
                 <>
                     <div
                         onClick={() => {
-                            enableButton ? buyItem(selectedMarketNft.id, 1) : null
+                            enableButton ? buyItem() : null
                         }}
                         className={`${style.button} bg-[#2081e2] hover:bg-[#42a0ff]`}
                     >

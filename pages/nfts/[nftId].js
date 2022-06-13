@@ -1,5 +1,6 @@
 import { useWeb3 } from '@3rdweb/hooks'
-import { ThirdwebSDK } from '@3rdweb/sdk'
+// import { ThirdwebSDK } from '@3rdweb/sdk'
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { useRouter } from 'next/router'
 import React, { useMemo, useState, useEffect } from 'react'
 import Header from '../../components/Header'
@@ -25,11 +26,8 @@ const Nft = () => {
     const nftModule = useMemo(() => {
         if (!provider) return
 
-        const sdk = new ThirdwebSDK(
-            provider.getSigner(),
-            'https://rinkeby.infura.io/v3/a464b9152d8c466c8a94a514fce8e837'
-        )
-        return sdk.getNFTModule('0xfE2d756733b070A29e802f097EC7141C6f0d12a7')
+        const sdk = new ThirdwebSDK(provider.getSigner());
+        return sdk.getNFTCollection('0xfE2d756733b070A29e802f097EC7141C6f0d12a7')
     }, [provider])
 
     // get all NFTs in the collection
@@ -38,8 +36,13 @@ const Nft = () => {
             ; (async () => {
                 const nfts = await nftModule.getAll()
 
-                const selectedNftItem = nfts.find((nft) => nft.id === router.query.nftId)
+                //  // console.log("nf", nfts)
 
+                const selectedNftItem = nfts.find((nft) => {
+                    // console.log(parseInt(nft.metadata.id._hex, 16).toString(), router.query.nftId)
+                    return parseInt(nft.metadata.id._hex, 16).toString() === router.query.nftId
+                })
+                // console.log(selectedNftItem)
                 setSelectedNft(selectedNftItem)
             })()
     }, [nftModule])
@@ -47,12 +50,9 @@ const Nft = () => {
     const marketPlaceModule = useMemo(() => {
         if (!provider) return
 
-        const sdk = new ThirdwebSDK(
-            provider.getSigner(),
-            'https://eth-rinkeby.alchemyapi.io/v2/odu8FkyGpdUrkuoDvFX_C0WQE7n1X-Dz'
-        )
+        const sdk = new ThirdwebSDK(provider.getSigner());
 
-        return sdk.getMarketplaceModule(
+        return sdk.getMarketplace(
             '0x144929958ebAEaEDCd759C90AD6E1226634D5D6B'
         )
     }, [provider])
